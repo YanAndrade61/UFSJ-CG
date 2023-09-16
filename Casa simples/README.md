@@ -15,5 +15,9 @@ Para executar este projeto em seu ambiente, siga estas etapas:
 sudo apt-get install mesa-utils freeglut3-dev
 ```
 2. Para compilar utilize:
+```bash
+gcc -o house house.c -lglut -lGLU -lGL -lXmu -lXext -lX11 -lm
+```
+
 
 
