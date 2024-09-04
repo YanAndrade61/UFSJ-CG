@@ -8,8 +8,11 @@
 #define tonum(a) isdigit(a) ? a-'0' : a-'a'+10 
 #define tocolor(a,b) (tonum(a)+tonum(b)*16)/25.5
 #define torgb(hex) tocolor(hex[0],hex[1]),tocolor(hex[2],hex[3]),tocolor(hex[4],hex[5])
+#define starshiny(x) x ? "ffffff\0" : "ffde59\0" 
 
 int win_id;
+int estrela_brilho = 0;
+float move = 0;
 
 //Aqui se capturam as teclas comuns (letras, números e ESC, por exemplo)
 void myKeyboard(unsigned char key, int x, int y)
@@ -68,7 +71,7 @@ void myMouse(int button, int state, int x, int y)
 void init(void) 
 {
   // Define a cor de fundo da janela de visualização como preto
-  glClearColor(torgb("fdffff"), 1.0f);
+  glClearColor(torgb("000000"), 1.0f);
   // Define o modo de rastreio de cor utilizado para misturar a cor do material nos pontos da face (smoothing)
   glShadeModel (GL_SMOOTH);
   // Habilita a definição da cor do material a partir da cor corrente
@@ -108,6 +111,14 @@ void display(void)
   gluLookAt(0.0f, 0.0f, 0.0f, 0.0f, 0.0f, -1.0f, 0.0f, 1.0f, 0.0f);
   
   // Desenha um teapot de lado de 10 unidades  
+  char* starcolor = starshiny(estrela_brilho);
+  glPushMatrix();
+  glTranslatef(20,-55,20);
+  glColor3f(torgb("007400"));
+  glScalef(200,30,1);
+  glutSolidCube(1);
+  glPopMatrix();
+  glPopMatrix();
 
   //Frente - parede
   glColor3f(torgb("22b8ec"));
@@ -179,105 +190,83 @@ void display(void)
   glPopMatrix();
   
   //Telhado - frente
-  glColor3f(torgb("825a00"));
+  for (float pos = 0; pos <= 40; pos+=0.5)
+  {
+    glColor3f(torgb("825a00"));
+    glPushMatrix();
+    glTranslatef(pos,0,-1);
+    glRotatef(90,-1,0.5,0.6);
+    glScalef(21,21,20);
+    glutSolidCone(1,1,50,10);
+    glPopMatrix();
+  }   
+
+  //Oito
   glPushMatrix();
-  glTranslatef(0,0,-1);
-  glRotatef(90,-1,0.5,0.6);
-  glScalef(21,21,20);
-  glutSolidCone(1,1,20,10);
+  glTranslatef(0,7,20);
+  glColor3f(torgb("aaaaaa"));
+  glScalef(5,5,1);
+  glutSolidSphere(1,10,10);
   glPopMatrix();
 
-  // //Telhado - meio
-  // glTranslatef(40,0,0);
-  // glColor3f(torgb("413500"));
-  // glPushMatrix();
-  // glScalef(80,40,1);
-  // desenhaQuadrado();
-  // glPopMatrix();
-  // // //Telhado - final
-  // glTranslatef(40,0,0);
-  // glColor3f(torgb("413500"));
-  // glPushMatrix();
-  // glScalef(80,40,1);
-  // desenhaTriangulo();
-  // glPopMatrix();    
-
-  glPopMatrix();
-
-
-  // Oito - janela
-  // glTranslatef(-100,55,0);
-  // glColor3f(torgb("ffffff"));
-  // glPushMatrix();
-  // glScalef(10,10,1);
-  // dese;
-  // glPopMatrix();
-
-  // glColor3f(torgb("22b8ec"));
-  // glPushMatrix();
-  // glScalef(8,8,1);
-  // desenhaCirculo();
-  // glPopMatrix();
-  // glPopMatrix();
-
-  glTranslatef(50,30,0);
-  glColor3f(torgb("e9975c"));
   glPushMatrix();
-  glScalef(20,10,1);
+  glTranslatef(20,22,20);
+  glColor3f(torgb("d9d9d9"));
+  glScalef(12,6,1);
   glutSolidCube(1);
   glPopMatrix();
-  
-  glTranslatef(0,10,0);
-  glColor3f(torgb("e9975c"));
+
   glPushMatrix();
-  glScalef(30,10,1);
+  glTranslatef(20,26,20);
+  glColor3f(torgb("d9d9d9"));
+  glScalef(15,6,1);
   glutSolidCube(1);
   glPopMatrix();
-  
-  // glTranslatef(-150,10,0);
-  // glColor3f(torgb("22b8ec"));
-  // glPushMatrix();
-  // glScalef(40,40,1);
-  // desenhaCirculo();
-  // glPopMatrix();
+  glPopMatrix();
 
-  // // glTranslatef(0,25,0);
-  // // glColor3f(torgb(starshiny(star)));
-  // // glPushMatrix();
-  // // glRotatef(45,0,0,1);
-  // // glScalef(10,10,1);
-  // // glutSolidCube(1);
-  // // glPopMatrix();
+  glPushMatrix();
+  glTranslatef(-40,25,0);
+  glColor3f(torgb(starcolor));
+  glRotatef(45,0,0,1);
+  glScalef(5,5,1);
+  glutSolidCube(1);
+  glPopMatrix();
 
-  // glTranslatef(-20,-20,0);
-  // glPushMatrix();
-  // glRotatef(45,0,0,1);
-  // glScalef(10,10,1);
-  // glutSolidCube(1);
-  // glPopMatrix();
+  glPushMatrix();
+  glTranslatef(-60,25,0);
+  glColor3f(torgb(starcolor));
+  glRotatef(45,0,0,1);
+  glScalef(5,5,1);
+  glutSolidCube(1);
+  glPopMatrix();
 
-  // glTranslatef(45,0,0);
-  // glPushMatrix();
-  // glRotatef(45,0,0,1);
-  // glScalef(10,10,1);
-  // glutSolidCube(1);
-  // glPopMatrix();
+  glPushMatrix();
+  glTranslatef(-50,35,0);
+  glColor3f(torgb(starcolor));
+  glRotatef(45,0,0,1);
+  glScalef(5,5,1);
+  glutSolidCube(1);
+  glPopMatrix();
 
-  // glTranslatef(-15,-10,0);
-  // glPushMatrix();
-  // glRotatef(45,0,0,1);
-  // glScalef(7,7,1);
-  // glutSolidCube(1);
-  // glPopMatrix();
+  glPushMatrix();
+  glTranslatef(-48,20,0);
+  glColor3f(torgb(starcolor));
+  glRotatef(45,0,0,1);
+  glScalef(3,3,1);
+  glutSolidCube(1);
+  glPopMatrix();
 
+  glPushMatrix();
+  glTranslatef(-50,10,0);
+  glColor3f(torgb(starcolor));
+  glRotatef(45,0,0,1);
+  glScalef(5,5,1);
+  glutSolidCube(1);
+  glPopMatrix();
 
-  // glTranslatef(-10,-20,0);
-  // glPushMatrix();
-  // glRotatef(45,0,0,1);
-  // glScalef(10,10,1);
-  // glutSolidCube(1);
-  // glPopMatrix();
-
+  estrela_brilho = (estrela_brilho+1)%2;
+  glutPostRedisplay();
+  move = (int)(move+1)%100;
   
   // Executa os comandos OpenGL, e depois troca os buffers de vídeo
   glFlush();
